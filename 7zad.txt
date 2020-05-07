@@ -1,0 +1,70 @@
+using System;
+
+namespace lab3
+{
+    class Program
+    {
+        static void Main()
+        {
+            try
+            {
+                int[] myArray = Input();
+                int n = myArray.Length;
+                Console.WriteLine("Incoming array: ");
+                Print(myArray, n);
+                Console.Write("Enter index of elements to delete: ");
+                int m = int.Parse(Console.ReadLine());
+                DeleteArray(myArray, ref n, m);
+                Console.WriteLine("Final array: ");
+                Print(myArray, n);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Exception: Wrong format");
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Exception: array overflow");
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Exception: out of memory");
+            }
+            catch (OutOfMemoryException)
+            {
+                Console.WriteLine("Exception: not enough memory to create an object");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+        }
+
+        private static int[] Input()
+        {
+            Console.Write("Enter size of array: ");
+            int n = int.Parse(Console.ReadLine());
+            if (n <= 0) throw new Exception("Size of array can't be less than '0' or equal '0'");
+            int[] a = new int[n];
+            for (int i = 0; i < n; ++i)
+            {
+                Console.Write("a[{0}]= ", i);
+                a[i] = int.Parse(Console.ReadLine());
+            }
+            return a;
+        }
+        private static void Print(int[] a, int n)
+        {
+            for (int i = 0; i < n; ++i)
+                Console.Write("{0} ", a[i]);
+            Console.WriteLine();
+        }
+        private static void DeleteArray(int[] a, ref int n, int m)
+        {
+            if (m >= n || m < 0) throw new Exception("Element to delete an array is out of limit");
+            for (int i = m; i < n - 1; ++i)
+                a[i] = a[i + 1];
+            --n;
+        }
+    }
+}

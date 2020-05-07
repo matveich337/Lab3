@@ -1,0 +1,74 @@
+using System;
+
+namespace lab3
+{
+    class Program
+    {
+        static void Main()
+        {
+            try
+            {
+                int[,] MyArray;
+                InputArray(out MyArray);
+                PrintArray("Incoming array: ", MyArray);
+                int sum = Change(MyArray);
+                PrintArray("Final array: ", MyArray);
+                Console.WriteLine("Sum of even elements: " + sum);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Exception: wrong format");
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Exception: array overflow");
+            }
+            catch (OutOfMemoryException)
+            {
+                Console.WriteLine("Exception: not enough memory to create an object");
+            }
+        }
+
+        private static void InputArray(out int[,] mas)
+        {
+            Console.Write("First size: ");
+            int n = Int32.Parse(Console.ReadLine());
+            Console.Write("Second size: ");
+            int m = Int32.Parse(Console.ReadLine());
+            mas = new int[n, m];
+
+            for (int i = 0; i < mas.GetLength(0); i++)
+                for (int j = 0; j < mas.GetLength(1); j++)
+                {
+                    Console.Write("Array[{0}, {1}]: ", i, j);
+                    mas[i, j] = Int32.Parse(Console.ReadLine());
+                }
+
+        }
+
+        private static void PrintArray(string a, int[,] mas)
+        {
+            Console.WriteLine(a);
+            Console.WriteLine("-------");
+            for (int i = 0; i < mas.GetLength(0); i++)
+            {
+                for (int j = 0; j < mas.GetLength(1); j++)
+                    Console.Write("{0} ", mas[i, j]);
+                Console.WriteLine();
+            }
+            Console.WriteLine("-------");
+        }
+        private static int Change(int[,] mas)
+        {
+            int result = 0;
+            for (int i = 0; i < mas.GetLength(0); i++)
+                for (int j = 0; j < mas.GetLength(1); j++)
+                    if (mas[i, j] % 2 == 0)
+                    {
+                        result += mas[i, j];
+                        mas[i, j] = 0;
+                    }
+            return result;
+        }
+    }
+}
